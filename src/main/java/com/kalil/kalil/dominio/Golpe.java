@@ -1,4 +1,4 @@
-package dominio;
+package com.kalil.kalil.dominio;
 
 public class Golpe {
     private Integer idLutadorBate;

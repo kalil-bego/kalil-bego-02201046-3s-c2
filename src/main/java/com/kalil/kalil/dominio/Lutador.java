@@ -1,4 +1,4 @@
-package dominio;
+package com.kalil.kalil.dominio;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

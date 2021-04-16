@@ -1,16 +1,13 @@
-package controle;
+package com.kalil.kalil.controle;
 
-import dominio.Golpe;
-import dominio.Lutador;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
+import com.kalil.kalil.dominio.Golpe;
+import com.kalil.kalil.dominio.Lutador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repositiorio.LutadorRepository;
+import com.kalil.kalil.repositiorio.LutadorRepository;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -62,10 +59,8 @@ public class LutadorController {
         Optional<Lutador> lutadorApanha = repository.findById(apanha);
         Optional<Lutador> lutadorBate = repository.findById(bate);
 
-        List<Lutador> luta = new ArrayList<>(lutadorApanha, lutadorBate);
-
         lutadorApanha.get().setVida(lutadorBate.get().getForcaGolpe());
-        return ResponseEntity.status(201).body(luta);
+        return ResponseEntity.status(201).body(repository.findByidLutadorBateLikeAndidLutadorApanha(bate, apanha));
     }
 
     // f
