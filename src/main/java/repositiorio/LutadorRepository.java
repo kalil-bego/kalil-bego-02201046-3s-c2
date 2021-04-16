@@ -10,5 +10,4 @@ public interface LutadorRepository extends JpaRepository<Lutador, Integer> {
     List<Lutador> findByLutadorOrderByforcaGolpeAsc();
     List<Lutador> findByVivoTrue();
     List<Lutador> findByVivoFalse();
-
 }

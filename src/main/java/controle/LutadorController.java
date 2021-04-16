@@ -47,7 +47,7 @@ public class LutadorController {
             }
             return ResponseEntity.status(400).body("Lutador ja se concentrou 3 vezes!");
         }
-        return ResponseEntity.status(400).build();
+        return ResponseEntity.status(204).build();
     }
 
 //    // e
