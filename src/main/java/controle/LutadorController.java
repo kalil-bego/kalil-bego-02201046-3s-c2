@@ -1,5 +1,6 @@
 package controle;
 
+import dominio.Golpe;
 import dominio.Lutador;
 import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +51,17 @@ public class LutadorController {
         return ResponseEntity.status(204).build();
     }
 
-//    // e
-//    @PostMapping("/golpe")
-//    public ResponseEntity postGolpe(@RequestBody) {
-//
-//    }
+    // e
+    @PostMapping("/golpe")
+    public ResponseEntity postGolpe(@RequestBody Golpe golpe) {
+        int apanha = golpe.getIdLutadorApanha();
+        int bate = golpe.getIdLutadorBate();
+
+        Optional<Lutador> lutadorApanha = repository.findById(apanha);
+        Optional<Lutador> lutadorBate = repository.findById(bate);
+
+        lutadorApanha.get().setVida(lutadorBate.get().getForcaGolpe());
+    }
 
     // f
     @GetMapping("/mortos")
