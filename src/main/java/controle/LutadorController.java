@@ -1,12 +1,14 @@
 package controle;
 
 import dominio.Lutador;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repositiorio.LutadorRepository;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lutadores")
@@ -15,36 +17,46 @@ public class LutadorController {
     @Autowired
     private LutadorRepository repository;
 
+    // a
     @PostMapping
     public ResponseEntity postLutador(@RequestBody @Valid Lutador lutador) {
         repository.save(lutador);
         return ResponseEntity.status(201).build();
     }
 
+    // b
     @GetMapping
     public ResponseEntity getLutadores() {
         return ResponseEntity.status(200).body(repository.findByLutadorOrderByforcaGolpeAsc());
     }
 
+    // c
     @GetMapping("/contagem-vivos")
     public ResponseEntity getVivos() {
         return ResponseEntity.status(200).body(repository.findByVivoTrue().stream().count());
     }
 
-    @PostMapping("/{}/concentrar")
+    // d
+    @PostMapping("/{idLutador}/concentrar")
     public ResponseEntity postConcentrar(@PathVariable Integer idLutador) {
+        Optional<Lutador> lutador = repository.findById(idLutador);
         if (repository.existsById(idLutador)) {
-            if(repository.findByconcentracoesRealizadas()) {
-
+            if (lutador.get().getConcentracoesRealizadas() <= 3) {
+                lutador.get().setVida(lutador.get().getVida() * 1.15);
+                return ResponseEntity.status(200).build();
             }
+            return ResponseEntity.status(400).body("Lutador ja se concentrou 3 vezes!");
         }
+        return ResponseEntity.status(400).build();
     }
 
-    @PostMapping("/golpe")
-    public ResponseEntity postGolpe(@RequestBody) {
+//    // e
+//    @PostMapping("/golpe")
+//    public ResponseEntity postGolpe(@RequestBody) {
+//
+//    }
 
-    }
-
+    // f
     @GetMapping("/mortos")
     public ResponseEntity getMortos() {
         return ResponseEntity.status(200).body(repository.findByVivoFalse());
