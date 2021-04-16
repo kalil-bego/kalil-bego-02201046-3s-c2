@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import repositiorio.LutadorRepository;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -60,7 +62,10 @@ public class LutadorController {
         Optional<Lutador> lutadorApanha = repository.findById(apanha);
         Optional<Lutador> lutadorBate = repository.findById(bate);
 
+        List<Lutador> luta = new ArrayList<>(lutadorApanha, lutadorBate);
+
         lutadorApanha.get().setVida(lutadorBate.get().getForcaGolpe());
+        return ResponseEntity.status(201).body(luta);
     }
 
     // f
